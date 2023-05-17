@@ -1,3 +1,5 @@
 # Pastas
 venv
 auxiliar
+.idea
+__pycache__
