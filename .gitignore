@@ -5,3 +5,7 @@ auxiliar
 __pycache__
 .mypy_cache
 .vscode
+
+# Arquivos
+teste.py
+teste.png
