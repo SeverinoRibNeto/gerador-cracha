@@ -3,3 +3,5 @@ venv
 auxiliar
 .idea
 __pycache__
+.mypy_cache
+.vscode
