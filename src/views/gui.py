@@ -52,7 +52,7 @@ class GUI (wx.Frame):
         wSizer1.Add((0, 0), 1, wx.EXPAND, 5)
 
         self.m_filePicker2 = wx.FilePickerCtrl(
-            self, wx.ID_ANY, wx.EmptyString, u"Select a file", u"*.*", wx.DefaultPosition, wx.Size(450, -1), wx.FLP_DEFAULT_STYLE)
+            self, wx.ID_ANY, wx.EmptyString, u"Select a file", u"*.csv", wx.DefaultPosition, wx.Size(450, -1), wx.FLP_DEFAULT_STYLE)
         wSizer1.Add(self.m_filePicker2, 0, wx.ALL, 5)
 
         self.m_staticText4 = wx.StaticText(
@@ -160,7 +160,12 @@ class GUI (wx.Frame):
 
     # Virtual event handlers, override them in your derived class
     def salvar(self, event):
-        pub.sendMessage("SALVAR_SOLICITADO")
+        self.m_filePicker2.GetPath()
+        # Envia as informações de pastas para salvar em arquivo txt.
+        pub.sendMessage("SALVAR_SOLICITADO",
+                        caminho_info=self.m_filePicker2.GetPath(),
+                        caminho_imagens=self.m_dirPicker1.GetPath(),
+                        pasta_saida=self.m_dirPicker2.GetPath())
         event.Skip()
 
     def carregar(self, event):
