@@ -9,6 +9,7 @@
 
 import wx
 import wx.xrc
+from pubsub import pub
 
 ###########################################################################
 # Class principalFrame
@@ -148,5 +149,28 @@ class GUI (wx.Frame):
 
         self.Centre(wx.BOTH)
 
+        # Connect Events
+        self.m_button1.Bind(wx.EVT_BUTTON, self.salvar)
+        self.m_button2.Bind(wx.EVT_BUTTON, self.carregar)
+        self.m_button3.Bind(wx.EVT_BUTTON, self.gerar)
+        self.m_button4.Bind(wx.EVT_BUTTON, self.download)
+
     def __del__(self):
         pass
+
+    # Virtual event handlers, override them in your derived class
+    def salvar(self, event):
+        pub.sendMessage("SALVAR_SOLICITADO")
+        event.Skip()
+
+    def carregar(self, event):
+        pub.sendMessage("CARREGAR_SOLICITADO")
+        event.Skip()
+
+    def gerar(self, event):
+        pub.sendMessage("GERAR_SOLICITADO")
+        event.Skip()
+
+    def download(self, event):
+        pub.sendMessage("DOWNLOAD_SOLICITADO")
+        event.Skip()
