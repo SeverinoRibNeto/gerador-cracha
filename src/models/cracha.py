@@ -1,4 +1,4 @@
-from estudante import Estudante
+from .estudante import Estudante
 from PIL import Image, ImageDraw, ImageFont
 import qrcode
 
