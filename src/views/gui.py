@@ -173,9 +173,15 @@ class GUI (wx.Frame):
         event.Skip()
 
     def gerar(self, event):
-        pub.sendMessage("GERAR_SOLICITADO")
+        pub.sendMessage("GERAR_SOLICITADO",
+                        caminho_info=self.m_filePicker2.GetPath(),
+                        caminho_imagens=self.m_dirPicker1.GetPath(),
+                        pasta_saida=self.m_dirPicker2.GetPath())
         event.Skip()
 
     def download(self, event):
-        pub.sendMessage("DOWNLOAD_SOLICITADO")
+        pub.sendMessage("DOWNLOAD_SOLICITADO",
+                        caminho_info=self.m_filePicker2.GetPath(),
+                        caminho_imagens=self.m_dirPicker1.GetPath(),
+                        pasta_saida=self.m_dirPicker2.GetPath())
         event.Skip()
