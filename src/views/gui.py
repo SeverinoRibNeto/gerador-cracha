@@ -180,8 +180,5 @@ class GUI (wx.Frame):
         event.Skip()
 
     def download(self, event):
-        pub.sendMessage("DOWNLOAD_SOLICITADO",
-                        caminho_info=self.m_filePicker2.GetPath(),
-                        caminho_imagens=self.m_dirPicker1.GetPath(),
-                        pasta_saida=self.m_dirPicker2.GetPath())
+        pub.sendMessage("DOWNLOAD_SOLICITADO")
         event.Skip()
