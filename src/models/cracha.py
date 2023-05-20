@@ -31,8 +31,8 @@ class Cracha:
         self._organiza_imagem_qr(153, 2260)
         return
 
-    def _criar_texto_estudante(self, attrib: str,
-                               pos_x: int, pos_y: int) -> None:
+    def __criar_texto_estudante(self, attrib: str,
+                                pos_x: int, pos_y: int) -> None:
         # Escreve as informações da classe estudante;
         # Necessário passar o atributo por texto, como 'nome'
         draw = ImageDraw.Draw(self.modelo)
@@ -40,8 +40,8 @@ class Cracha:
         texto = getattr(self.estudante, attrib)
         draw.text((pos_x, pos_y), texto, font=font_name, fill='black')
 
-    def _criar_texto_vertical_estudante(self, attrib: str,
-                                        pos_x: int, pos_y: int) -> None:
+    def __criar_texto_vertical_estudante(self, attrib: str,
+                                         pos_x: int, pos_y: int) -> None:
         # Vira a imagem em -90 graus para escrever informações do estudante;
         # Dessa forma, as informações ficam de forma vertical
         self.modelo = self.modelo.rotate(-90, expand=1)
@@ -52,8 +52,8 @@ class Cracha:
                   fill='black')
         self.modelo = self.modelo.rotate(90, expand=1)
 
-    def _criar_texto_vertical(self, texto: str,
-                              pos_x: int, pos_y: int) -> None:
+    def __criar_texto_vertical(self, texto: str,
+                               pos_x: int, pos_y: int) -> None:
         # Cria um texto na forma vertical, sem a necessidade de
         # atributos. Somente texto
         self.modelo = self.modelo.rotate(-90, expand=1)
@@ -63,19 +63,19 @@ class Cracha:
                   fill='black')
         self.modelo = self.modelo.rotate(90, expand=1)
 
-    def _organiza_imagem_estudante(self, pos_x: int, pos_y: int) -> None:
+    def __organiza_imagem_estudante(self, pos_x: int, pos_y: int) -> None:
         # Redefine tamanho da imagem e coloca no cracha, chamado de modelo
         self.imagem_estudante = self.imagem_estudante.resize((840, 1120))
         self.modelo.paste(self.imagem_estudante, (pos_x, pos_y))
 
-    def _organiza_imagem_qr(self, pos_x: int, pos_y: int) -> None:
+    def __organiza_imagem_qr(self, pos_x: int, pos_y: int) -> None:
         # Pega o codigo qr criado na função codigo_qr, modifica o tamanho e
         # coloca no crachá chamado de modelo
         qr_code = self._codigo_qr()
         qr_code = qr_code.resize((417, 422))
         self.modelo.paste(qr_code, (pos_x, pos_y))
 
-    def _codigo_qr(self) -> Image:
+    def __codigo_qr(self) -> Image:
         # Cria o código qr com auxilio da classe qrcode
         codigo_qr = qrcode.QRCode()
         codigo_qr.add_data(self.estudante.matricula)
