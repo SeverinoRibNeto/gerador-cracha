@@ -1,5 +1,7 @@
 import time
+import os
 import threading
+from typing import List
 from models.estudante import Estudante
 from models.cracha import Cracha
 from views.gui import GUI
@@ -18,19 +20,26 @@ class ProcessaCrachaThreading(threading.Thread):
 class CrachaController:
     cabecalho_csv = ['matricula', 'nome', 'fator_rh',
                      'curso', 'data_nascimento', 'sus_numero']
+    app = wx.App()
+    gui = GUI(None)
+    error_message = wx.MessageDialog(gui,
+                                     'Mensagem Erro',
+                                     style=wx.OK | wx.CENTRE,
+                                     pos=wx.DefaultPosition)
 
     def __init__(self):
-        # self.config = config
-        self.app = wx.App()
-        self.gui = GUI(None)
+
+        if (not os.path.exists('config.txt')):
+            # Cria arquivo vazio com a configuração do programa
+            self.criar_arquivo_config('', '', '')
 
         # cria comunicação com a view
         pub.subscribe(self.salvar, "SALVAR_SOLICITADO")
         pub.subscribe(self.carregar, "CARREGAR_SOLICITADO")
         pub.subscribe(self.gerar, "GERAR_SOLICITADO")
-        pub.subscribe(self._criar_csv_exemplo, "DOWNLOAD_SOLICITADO")
+        pub.subscribe(self.__criar_csv_exemplo, "DOWNLOAD_SOLICITADO")
 
-    def _criar_csv_exemplo(self):
+    def __criar_csv_exemplo(self):
         # cria o arquivo csv exemplo e abre com o notepad
         with open('template.csv', 'w', newline='') as arquivo:
             writer = csv.writer(arquivo)
@@ -40,14 +49,90 @@ class CrachaController:
         except FileNotFoundError:
             print("Editor de texto não encontrado")
 
-    def salvar(self, caminho_info, caminho_imagens, pasta_saida):
+    def salvar(self, caminho_info: str,
+               caminho_imagens: str, pasta_saida: str) -> bool:
+        self.criar_arquivo_config(caminho_info, caminho_imagens, pasta_saida)
+        return True
+
+    def carregar(self) -> None:
+        try:
+            config = self.retorna_variaveis_config()
+            if config:
+                self.gui.m_filePicker2.SetPath(config[1])
+                self.gui.m_dirPicker1.SetPath(config[0])
+                self.gui.m_dirPicker2.SetPath(config[2])
+            return
+        except Exception as e:
+            self.error_message.SetMessage(
+                'Error ao carregar as configurações'+'\n'+str(e))
+            self.error_message.ShowModal()
+            return
+
+    def gerar(self, caminho_info, caminho_imagens, pasta_saida):
+        # Separar informações do csv para lista e fazer contagem total -ok
+        # criar estudante com as informações do csv- ok
+        # Criar lista de arquivos em caminh_imagens
+        # verificar se existe foto do estudante na lista de imagens
+        # criar o cracha e preencher as informações
+        # salvar na pasta de saidas
+        # adicionar ao contador
+        for estudante in self.cria_lista_estudantes_info(caminho_info):
+            print(estudante)
         pass
 
-    def carregar(self):
-        pass
+    def cria_lista_estudantes_info(self, caminho_csv: str) -> List[Estudante]:
+        try:
+            with open(caminho_csv, 'r') as file:
+                lista_estudantes = list(csv.reader(file, delimiter=','))
+            return self.transf_lista_estudante(lista_estudantes)
+        except Exception as e:
+            self.error_message.SetMessage(
+                'Error ao carregar as Informações'+'\n'+str(e))
+            self.error_message.ShowModal()
+            return []
 
-    def gerar(self):
-        pass
+    def transf_lista_estudante(self,
+                               lista_e: List[Estudante]) -> List[Estudante]:
+        return [Estudante(estudante[0],
+                          estudante[1],
+                          estudante[2],
+                          estudante[3],
+                          estudante[4],
+                          estudante[5])
+                for estudante in lista_e
+                if estudante[0] not in self.cabecalho_csv]
+
+    def lista_imagens(self, imagens_dir) -> List[str]:
+        return []
+
+    def criar_arquivo_config(self, caminho_info: str,
+                             caminho_imagens: str, pasta_saida: str) -> bool:
+        # Salva as configurações em um arquivo txt de nome config.txt
+        try:
+            with open('config.txt', "w") as f:
+                f.write(f'caminho_imagens={caminho_imagens}')
+                f.write(';')
+                f.write(f'caminho_info={caminho_info}')
+                f.write(';')
+                f.write(f'pasta_saida={pasta_saida}')
+                return True
+        except Exception as e:
+            print(e)
+            return False
+
+    def retorna_variaveis_config(self) -> List[str]:
+        try:
+            with open('config.txt', 'r') as f:
+                config_crua = f.readline()
+        except Exception as e:
+            raise e
+        # Separa as informações que estão com ';' e cria a lista para as
+        # config_crua
+        config_lista = [config for config in config_crua.split(";")]
+        # Faz o retorno de c que é o slipt de config, item da lista
+        # config_crua Valores sem o '\\' são descartados
+        return [c for config in config_lista
+                for c in config.split('=') if '\\' in c]
 
     def run(self):
         self.gui.Show()
