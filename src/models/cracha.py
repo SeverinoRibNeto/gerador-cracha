@@ -19,7 +19,7 @@ class Cracha:
         self.modelo = modelo
         self.caminho_salvar = caminho_salvar
 
-    def gerarCracha(self) -> None:
+    def gerar_cracha(self) -> None:
         # Cria as informações de texto, imagem e código qr
         self.__criar_texto_estudante('nome', 300, 1870)
         self.__criar_texto_estudante('fator_rh', 280, 2100)
@@ -85,6 +85,6 @@ class Cracha:
     def run(self) -> None:
         # Metodo para gerar um cracha de acordo com as informações passadas;
         # Necessário informar o ca
-        self.gerarCracha()
+        self.gerar_cracha()
         self.modelo.save(self.caminho_salvar+"teste.png")
         pass
