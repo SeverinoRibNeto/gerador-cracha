@@ -20,6 +20,7 @@ class ProcessaCrachaThreading(threading.Thread):
 class CrachaController:
     cabecalho_csv = ['matricula', 'nome', 'fator_rh',
                      'curso', 'data_nascimento', 'sus_numero']
+    formato_imagens = [".jpg", ".jpeg", ".png"]
     app = wx.App()
     gui = GUI(None)
     error_message = wx.MessageDialog(gui,
@@ -76,8 +77,7 @@ class CrachaController:
         # criar o cracha e preencher as informações
         # salvar na pasta de saidas
         # adicionar ao contador
-        for estudante in self.cria_lista_estudantes_info(caminho_info):
-            print(estudante)
+        print(self.lista_imagens(caminho_imagens))
         pass
 
     def cria_lista_estudantes_info(self, caminho_csv: str) -> List[Estudante]:
@@ -93,6 +93,7 @@ class CrachaController:
 
     def transf_lista_estudante(self,
                                lista_e: List[Estudante]) -> List[Estudante]:
+        # Recebe uma lista de estudantes e transforma em estudantes(Objeto)
         return [Estudante(estudante[0],
                           estudante[1],
                           estudante[2],
@@ -103,7 +104,12 @@ class CrachaController:
                 if estudante[0] not in self.cabecalho_csv]
 
     def lista_imagens(self, imagens_dir) -> List[str]:
-        return []
+        # Percorre o diretório e imagens_dir, percore os arquivos, filtrando eles pelo
+        # formato desejado. Os formatos aceitos são '.jpeg', '.jpg' e '.png'
+        return [os.path.join(diretorio, arquivo)
+                for diretorio, subpastas, arquivos in os.walk(imagens_dir)
+                for arquivo in arquivos
+                if any(formato in arquivo for formato in self.formato_imagens)]
 
     def criar_arquivo_config(self, caminho_info: str,
                              caminho_imagens: str, pasta_saida: str) -> bool:
