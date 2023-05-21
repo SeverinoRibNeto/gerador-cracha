@@ -21,14 +21,14 @@ class Cracha:
 
     def gerarCracha(self) -> None:
         # Cria as informações de texto, imagem e código qr
-        self._criar_texto_estudante('nome', 300, 1870)
-        self._criar_texto_estudante('fator_rh', 280, 2100)
-        self._criar_texto_estudante('curso', 700, 2320)
-        self._criar_texto_estudante('data_nascimento', 700, 2580)
-        self._criar_texto_vertical('SUS:', 150, 30)
-        self._criar_texto_vertical_estudante('sus_numero', 350, 30)
-        self._organiza_imagem_estudante(538, 626)
-        self._organiza_imagem_qr(153, 2260)
+        self.__criar_texto_estudante('nome', 300, 1870)
+        self.__criar_texto_estudante('fator_rh', 280, 2100)
+        self.__criar_texto_estudante('curso', 700, 2320)
+        self.__criar_texto_estudante('data_nascimento', 700, 2580)
+        self.__criar_texto_vertical('SUS:', 150, 30)
+        self.__criar_texto_vertical_estudante('sus_numero', 350, 30)
+        self.__organiza_imagem_estudante(538, 626)
+        self.__organiza_imagem_qr(153, 2260)
         return
 
     def __criar_texto_estudante(self, attrib: str,
@@ -71,7 +71,7 @@ class Cracha:
     def __organiza_imagem_qr(self, pos_x: int, pos_y: int) -> None:
         # Pega o codigo qr criado na função codigo_qr, modifica o tamanho e
         # coloca no crachá chamado de modelo
-        qr_code = self._codigo_qr()
+        qr_code = self.__codigo_qr()
         qr_code = qr_code.resize((417, 422))
         self.modelo.paste(qr_code, (pos_x, pos_y))
 
