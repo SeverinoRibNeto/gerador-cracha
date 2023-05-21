@@ -5,6 +5,7 @@ auxiliar
 __pycache__
 .mypy_cache
 .vscode
+.pytest_cache
 
 # Arquivos
 teste.py
