@@ -81,6 +81,11 @@ class CrachaController:
         # criar o cracha e preencher as informações
         # salvar na pasta de saidas
         # adicionar ao contador -ok
+        if not pasta_saida:
+            self.error_message.SetMessage(
+                "É necessário informar a pasta para saida!")
+            self.error_message.ShowModal()
+            return
         lista_imagens = self.lista_imagens(caminho_imagens)
         estudantes = self.cria_lista_estudantes_info(caminho_info)
         texto = f"Gerando ... (1 de {len(estudantes)})"
