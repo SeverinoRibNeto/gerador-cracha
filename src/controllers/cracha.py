@@ -20,6 +20,8 @@ class ProcessaCrachaThreading(threading.Thread):
 class CrachaController:
     cabecalho_csv = ['matricula', 'nome', 'fator_rh',
                      'curso', 'data_nascimento', 'sus_numero']
+    exemplo_dados = [111, "Nome Teste", "A+", "Curso",
+                     "01/01/2001", 123456789]
     formato_imagens = [".jpg", ".jpeg", ".png"]
     app = wx.App()
     gui = GUI(None)
@@ -46,6 +48,7 @@ class CrachaController:
         with open('template.csv', 'w', newline='') as arquivo:
             writer = csv.writer(arquivo)
             writer.writerow(self.cabecalho_csv)
+            writer.writerow(self.exemplo_dados)
         try:
             subprocess.run(['notepad.exe', 'template.csv'])
         except FileNotFoundError:
