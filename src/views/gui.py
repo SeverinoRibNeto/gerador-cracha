@@ -62,9 +62,9 @@ class GUI (wx.Frame):
                                            wx.ID_ANY,
                                            u"Para gerar os crachás, " +
                                            "escolha uma lista CSV com as" +
-                                           "informações dos estudantes;" +
+                                           " informações dos estudantes;" +
                                            "Template disponível" +
-                                           "em \"Download Template\"",
+                                           " em \"Download Template\"",
                                            wx.DefaultPosition,
                                            wx.DefaultSize, 0)
         self.m_staticText6.Wrap(-1)
@@ -73,10 +73,10 @@ class GUI (wx.Frame):
 
         self.m_staticText7 = wx.StaticText(sbSizer3.GetStaticBox(),
                                            wx.ID_ANY,
-                                           u"Em seguida, escolha a pasta" +
+                                           u"Em seguida, escolha a pasta " +
                                            "com as imagens dos estudantes," +
-                                           "todas numeradas de acordo com" +
-                                           "o número do SUS;",
+                                           " todas numeradas de acordo com" +
+                                           " o número do SUS;",
                                            wx.DefaultPosition,
                                            wx.DefaultSize, 0)
         self.m_staticText7.Wrap(-1)
@@ -86,8 +86,8 @@ class GUI (wx.Frame):
         self.m_staticText8 = wx.StaticText(sbSizer3.GetStaticBox(),
                                            wx.ID_ANY,
                                            u"Por fim, escolha a pasta" +
-                                           "em que quer que os arquivos" +
-                                           "sejam salvos;",
+                                           " em que quer que os arquivos" +
+                                           " sejam salvos;",
                                            wx.DefaultPosition,
                                            wx.DefaultSize, 0)
         self.m_staticText8.Wrap(-1)
